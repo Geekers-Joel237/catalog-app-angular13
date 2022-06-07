@@ -1,4 +1,4 @@
-export enum ProductActionsTypes{
+export enum ProductActionsTypes {
   GET_ALL_PRODUCTS = "[Product] Get All Products",
   GET_SELECTED_PRODUCTS = "[Product] Get Selected Products",
   GET_AVAILABLE_PRODUCTS = "[Product] Get Available Products",
@@ -7,6 +7,8 @@ export enum ProductActionsTypes{
   SELECT_PRODUCT = "[Product] Select Product",
   EDIT_PRODUCT = "[Product] Edit Product",
   DELETE_PRODUCT = "[Product] Delete Product",
+  UPDATE_PRODUCT = "[Product] UPDATE_PRODUCT",
+  SAVE_PRODUCT = "SAVE_PRODUCT"
 }
 
 export enum DataStateEnum{

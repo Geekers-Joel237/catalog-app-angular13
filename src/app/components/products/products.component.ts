@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, map, Observable, of, startWith } from 'rxjs';
 import { IProduct } from 'src/app/models/product.models';
+import { EventdriverService } from 'src/app/services/eventdriver.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { ActionEvent, AppDataState, DataStateEnum, ProductActionsTypes } from 'src/app/state/product.state';
 
@@ -15,10 +16,18 @@ export class ProductsComponent implements OnInit {
   products$!:Observable<AppDataState<IProduct[]>>;
   readonly DataStateEnum = DataStateEnum;
   // products$ observable | async
-  constructor(private productsService: ProductsService,private router:Router) { }
+  constructor(
+    private productsService: ProductsService,
+    private eventDriverService: EventdriverService,
+    private router:Router) { }
 
   ngOnInit(): void {
     // this.onGetAllProducts();
+    this.eventDriverService.sourceEventSubjectObservable.subscribe(
+      (actionEvent:ActionEvent)=>{
+        this.onActionEvent(actionEvent);
+      }
+    );
   }
 
   onGetAllProducts():void{
@@ -94,7 +103,7 @@ export class ProductsComponent implements OnInit {
     this.router.navigateByUrl("/editProduct/"+item.id);
   }
 
-  onActionEventProductsNavBar($event:ActionEvent):void{
+  onActionEvent($event:ActionEvent):void{
     switch($event.type){
       case ProductActionsTypes.GET_ALL_PRODUCTS :
         this.onGetAllProducts();
@@ -111,24 +120,32 @@ export class ProductsComponent implements OnInit {
       case ProductActionsTypes.SEARCH_PRODUCTS :
         this.onSearch($event.payload);
         break;
-
-      }
-    }
-
-    onActionEventProductsList($event:ActionEvent):void{
-      switch($event.type){
         case ProductActionsTypes.SELECT_PRODUCT :
           this.onSelect($event.payload);
           break;
-        case ProductActionsTypes.EDIT_PRODUCT :
+      case ProductActionsTypes.EDIT_PRODUCT :
           this.onEdit($event.payload);
           break;
-        case ProductActionsTypes.DELETE_PRODUCT :
+      case ProductActionsTypes.DELETE_PRODUCT :
           this.onDelete($event.payload);
           break;
-
-        }
       }
+    }
+
+    // onActionEventProductsList($event:ActionEvent):void{
+    //   switch($event.type){
+    //     case ProductActionsTypes.SELECT_PRODUCT :
+    //       this.onSelect($event.payload);
+    //       break;
+    //     case ProductActionsTypes.EDIT_PRODUCT :
+    //       this.onEdit($event.payload);
+    //       break;
+    //     case ProductActionsTypes.DELETE_PRODUCT :
+    //       this.onDelete($event.payload);
+    //       break;
+
+    //     }
+    //   }
 
   }
 
