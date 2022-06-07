@@ -94,7 +94,7 @@ export class ProductsComponent implements OnInit {
     this.router.navigateByUrl("/editProduct/"+item.id);
   }
 
-  onActionEvent($event:ActionEvent):void{
+  onActionEventProductsNavBar($event:ActionEvent):void{
     switch($event.type){
       case ProductActionsTypes.GET_ALL_PRODUCTS :
         this.onGetAllProducts();
@@ -114,6 +114,21 @@ export class ProductsComponent implements OnInit {
 
       }
     }
+
+    onActionEventProductsList($event:ActionEvent):void{
+      switch($event.type){
+        case ProductActionsTypes.SELECT_PRODUCT :
+          this.onSelect($event.payload);
+          break;
+        case ProductActionsTypes.EDIT_PRODUCT :
+          this.onEdit($event.payload);
+          break;
+        case ProductActionsTypes.DELETE_PRODUCT :
+          this.onDelete($event.payload);
+          break;
+
+        }
+      }
 
   }
 
