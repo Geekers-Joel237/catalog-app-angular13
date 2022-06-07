@@ -44,7 +44,7 @@
       "name": "MSI pc",
       "price": 0,
       "quantity": 0,
-      "selected": true,
+      "selected": false,
       "available": true,
       "id": 6
     },
